@@ -24,6 +24,19 @@ app.post('/socket', function (req, res) {
 
 // server 端收到 client 端送出的請求
 wss.on('connection', function connection(ws) {
+    const interval = setInterval(() => {
+        start_push_msg();
+    }, 1000);
+    
+    start_push_msg = () => {
+        ws.send('一直送一直送給前端');
+    }
+    
+    setTimeout(() => {
+        console.log('stop server push msg.');
+        clearInterval(interval);
+    }, 5000);
+
     ws.on('message', function incoming(message) {
         console.log('收到 client 端發出的訊息: %s', message);
     });
